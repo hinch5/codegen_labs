@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const parser = require('./parser');
+
+async function read(stream) {
+    const chunks = [];
+    for await (const chunk of stream) chunks.push(chunk);
+    return Buffer.concat(chunks).toString('utf8');
+}
+
+async function main() {
+    const input = await read(process.stdin);
+    const res = parser.parse(input, {startRule: 'Program'});
+    console.log(JSON.stringify(res));
+}
+
+main();
